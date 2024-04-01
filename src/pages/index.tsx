@@ -5,6 +5,7 @@ import { EnterprisesApi } from "../services/api/enterprises";
 import { Enterprise } from "../utils/types/enterprises";
 import SearchBar from "../components/searchBar";
 import EnterpriseCard from "../components/enterpriseCard";
+import { useRouter } from "next/dist/client/router";
 
 type HomeProps = {
     enterprises: Enterprise[];
@@ -17,6 +18,7 @@ export default function Home(props: HomeProps) {
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState(enterprises);
+    const router = useRouter();
 
     const numberEnterprises = () => {
         setEnterprisesNumber(enterprises.length)
@@ -25,10 +27,6 @@ export default function Home(props: HomeProps) {
     useEffect(() => {
         numberEnterprises()
     })
-
-    const handleHereNewEnterprise = () => {
-        setIsHome(false);
-    }
 
     const handleHome = () => {
         setIsHome(true);
@@ -41,6 +39,10 @@ export default function Home(props: HomeProps) {
         setSearchResults(results);
     };
 
+    const goToRegister = () => {
+        router.push('/register');
+    }
+
     return (
         <main>
             {isHome &&
@@ -49,7 +51,7 @@ export default function Home(props: HomeProps) {
                 title="Empreendimentos" 
                 button={true} 
                 IconReturn={false} 
-                PushButton={handleHereNewEnterprise}
+                PushButton={goToRegister}
                 PushButtonReturn={handleHome}
             />
             <SearchBar handleSearch={handleSearch}
