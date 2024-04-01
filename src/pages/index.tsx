@@ -1,21 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Head from "next/head";
 import ButtonFooter from "../components/buttonFooter/buttonFooter";
 import Header from "../components/Header";
-import { IconButton, Input, InputAdornment, Alert, Button, Dialog } from "@material-ui/core";
-import { 
-    BoxNameEnterprise, 
-    ContainerHome,  
-    ContentHome, 
-    ContentStatus,
-    ContainertLupa, 
-    ContentLupa, 
-} from "./styles";
+import { ContainertLupa, ContentLupa } from "./styles";
 import { EnterprisesApi } from "../services/api/enterprises";
 import { Enterprise } from "../utils/types/enterprises";
 import SearchBar from "../components/searchBar";
-import ModalDelete from "../components/modals/modalDelete";
 import EnterpriseCard from "../components/enterpriseCard";
 
 type HomeProps = {
@@ -30,37 +19,30 @@ export default function Home(props: HomeProps) {
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState(enterprises);
 
+    const numberEnterprises = () => {
+        setEnterprisesNumber(enterprises.length)
+    }
 
-function numberEnterprises() {
-    setEnterprisesNumber(enterprises.length)
-}
+    useEffect(() => {
+        numberEnterprises()
+    })
 
-useEffect(() => {
-    numberEnterprises()
-})
+    const handleHereNewEnterprise = () => {
+        setIsHome(false);
+    }
 
-function handleHereNewEnterprise() {
-    setIsHome(false);
-}
+    const handleHome = () => {
+        setIsHome(true);
+    }
 
-function handleHome() {
-    setIsHome(true);
-}
-
-const handleSearch = () => {
-    const results = enterprises.filter(
-      (enterprise) => enterprise.name.toLowerCase().includes(search.toLowerCase())
-    );
-  
-    setSearchResults(results);
-  };
+    const handleSearch = () => {
+        const results = enterprises.filter(
+        (enterprise) => enterprise.name.toLowerCase().includes(search.toLowerCase())
+        );
+        setSearchResults(results);
+    };
 
     return (
-      <>
-        <Head>
-          <title>ChallengJob</title>
-        </Head>
-
         <main>
             {isHome &&
             <>
@@ -81,26 +63,18 @@ const handleSearch = () => {
             </ContainertLupa>
             {searchResults.slice(0, rowsPerPage).map((data: Enterprise) => {
                 return (
-                    <ContainerHome key={data._id}>
-                        <ContentHome>
-                               <EnterpriseCard  
-                                enterprise={data}
-                                enterprises={enterprises}
-                                setEnterprises={setEnterprises}
-                            />
-                            <ContentStatus>
-                                <div>{data.status === "RELEASE" ? "Lançamento" : data.status}</div>
-                                <div>{data.purpose === "HOME" ? "Residencial" : data.purpose}</div>
-                            </ContentStatus>
-                        </ContentHome>
-                    </ContainerHome>
+                    <EnterpriseCard 
+                        key= {data._id} 
+                        enterprise={data}
+                        enterprises={enterprises}
+                        setEnterprises={setEnterprises}
+                    />
                 )
             })}
             {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)}/>}
             </>
             }
         </main>
-      </>
     )
   }
 
