@@ -25,13 +25,28 @@ export class EnterprisesApi {
     }
 
     static  async getEnterprise(id: string): Promise<Enterprise>{
-        const handler = new HttpHandler();
-        const response = await handler.get<Enterprise>(`/enterprises/${id}`);
-        if (response.success){
-            return response.data;
-        } else {
-            throw new Error('Error to get enterprise');
+        //const handler = new HttpHandler();
+        //const response = await handler.get<Enterprise>(`/enterprises/${id}`);
+        const response = {
+            "_id": "PA01",
+            "name": "Sirius Vila Bastos",
+            "status": "RELEASE",
+            "purpose": "HOME",
+            "ri_number": "123321",
+            "address": {
+                "district": "Vila Bastos",
+                "city": "Santo André",
+                "street": "Rua Doutor Messuti",
+                "state": "SP",
+                "number": "339",
+                "cep": "60000000"}
         }
+        return response;
+        //if (response.success){
+            //return response.data;
+        //} else {
+            //throw new Error('Error to get enterprise');
+        //}
     }
 
     static  async update(enterprise: Enterprise): Promise<Enterprise>{

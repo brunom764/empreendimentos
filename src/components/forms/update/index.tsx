@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Input, InputContainer, ErrorMessage, Select, Button, FormContainer, AddressContainer, SubTitle, InputsContainer } from '../style';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../schema';
 import { EnterprisesApi } from '../../../services/api/enterprises';
 import { Address, getAddress } from '../../../utils/helpers/getAddress';
+import { Enterprise } from '../../../utils/types/enterprises';
 
 
 type FormValues = {
@@ -16,30 +17,34 @@ type FormValues = {
   ri_number: string;
 };
 
-export default function RegisterForm () {
+export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
 
-  const [address, setAddress] = useState<Address>({
-    district: '',
-    city: '',
-    street: '',
-    state: '',
-    number: '',
-    cep: ''
-  });
+  const [address, setAddress] = useState<Address>(enterprise.address);
 
   const {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors},
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    setValue("name", enterprise.name);
+    setValue("status", enterprise.status);
+    setValue("purpose", enterprise.purpose);
+    setValue("cep", enterprise.address.cep);
+    setValue("number", enterprise.address.number);
+    setValue("ri_number", enterprise.ri_number);
+  }, [setValue, enterprise]);
+
+
   const onSubmit = async (formData: FormValues) => {
     try {
       address.number = formData.number;
-      const response = await EnterprisesApi.create({...formData, address});
+      const response = await EnterprisesApi.update({...formData, address, _id: enterprise._id});
       if (response) {
         alert('Empreendimento cadastrado com sucesso');
       }
@@ -67,10 +72,10 @@ export default function RegisterForm () {
       <SubTitle>Informações</SubTitle>
       <InputContainer>
         <Select id="status" {...register("status")} >
-          <option value="BREVE_LANCAMENTO">Breve lançamento</option>
-          <option value="EM_OBRAS">Em obras</option>
-          <option value="LANCAMENTO">Lançamento</option>
-          <option value="PRONTO_PARA_MORAR">Pronto para morar</option>
+          <option value="SOON_RELEASE">Breve lançamento</option>
+          <option value="IN_WORKS">Em obras</option>
+          <option value="RELEASE">Lançamento</option>
+          <option value="READY">Pronto para morar</option>
 
          </Select>
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
@@ -98,8 +103,8 @@ export default function RegisterForm () {
 
       <InputContainer>
         <Select id="purpose" {...register("purpose")} >
-          <option value="RESIDENCIAL">Residencial</option>
-          <option value="COMERCIAL">Comercial</option>
+          <option value="HOME">Residencial</option>
+          <option value="COMMERCIAL">Comercial</option>
         </Select>
         {errors.purpose && <ErrorMessage>{errors.purpose.message}</ErrorMessage>}
       </InputContainer>
@@ -137,7 +142,7 @@ export default function RegisterForm () {
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
       </InputContainer>
       </InputsContainer>
-      <Button type="submit">Cadastrar</Button>
+      <Button type="submit">Editar</Button>
     </FormContainer>
   );
 };

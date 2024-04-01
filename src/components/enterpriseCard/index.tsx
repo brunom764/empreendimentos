@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
+import Link from "next/link";
 import { Enterprise } from "../../utils/types/enterprises";
 import ModalDelete from "../modals/modalDelete";
 import { BoxNameEnterprise, ContainerHome, ContainerOptions, ContentHome, ContentOptions, ContentStatus } from "./styles";
@@ -36,10 +37,13 @@ export default function EnterpriseCard({enterprise, enterprises, setEnterprises 
                 <div>{enterprise.purpose === "HOME" ? "Residencial" : enterprise.purpose}</div>
             </ContentStatus>
             <ContentOptions>
+                <Link href={`/update/${enterprise._id}`} passHref>
                 <img 
                     src="/images/Vector.svg" 
                     alt="Icone de Lapis" 
+                
                 />
+                </Link>
                 <img 
                     onClick={() => {
                         setOpenModalDelete(true);
