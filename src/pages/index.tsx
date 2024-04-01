@@ -15,6 +15,8 @@ import {
 import { EnterprisesApi } from "../services/api/enterprises";
 import { Enterprise } from "../utils/types/enterprises";
 import SearchBar from "../components/searchBar";
+import ModalDelete from "../components/modals/modalDelete";
+import EnterpriseCard from "../components/enterpriseCard";
 
 type HomeProps = {
     enterprises: Enterprise[];
@@ -26,7 +28,6 @@ export default function Home(props: HomeProps) {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
     const [search, setSearch] = useState("")
-    const [openModalDelete, setOpenModalDelete] = useState(false);
     const [searchResults, setSearchResults] = useState(enterprises);
 
 
@@ -45,19 +46,6 @@ function handleHereNewEnterprise() {
 function handleHome() {
     setIsHome(true);
 }
-
-
-async function DeleteEnterprise(id: string) {
-    try {
-        await EnterprisesApi.delete(id);
-        const newEnterprises = enterprises.filter((enterprise) => enterprise._id !== id);
-        setEnterprises(newEnterprises);
-        setOpenModalDelete(false);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 
 const handleSearch = () => {
     const results = enterprises.filter(
@@ -95,44 +83,11 @@ const handleSearch = () => {
                 return (
                     <ContainerHome key={data._id}>
                         <ContentHome>
-                            {openModalDelete && 
-                                <Alert
-                                    maxWidth="md"
-                                    severity="error"
-                                    action={
-                                        <>
-                                        <Button onClick={() => setOpenModalDelete(false)}color="inherit" size="small">
-                                        Cancelar
-                                        </Button>
-                                        <Button onClick={() => DeleteEnterprise()}color="inherit" size="small">
-                                        Confirmar
-                                        </Button>
-                                        </>
-                                    }
-                                >
-                                    Confirma a exclusão do Empreendimento?
-                                </Alert>
-                            }
-                            
-                            {!openModalDelete && 
-                                <div>
-                                    <BoxNameEnterprise>                      
-                                        <span>{data.name}</span>
-                                        <img 
-                                            src="/images/Vector.svg" 
-                                            alt="Icone de Lapis" 
-                                            />
-                                            <img 
-                                            onClick={() => {
-                                                setOpenModalDelete(true);
-                                            }}
-                                            src="/images/Vector-1.svg" 
-                                            alt="Icone de Lixeira" 
-                                        />
-                                    </BoxNameEnterprise>
-                                    <p>{data.address.street}, {data.address.number} - {data.address.district}, {data.address.state}</p>
-                                </div>
-                            }
+                               <EnterpriseCard  
+                                enterprise={data}
+                                enterprises={enterprises}
+                                setEnterprises={setEnterprises}
+                            />
                             <ContentStatus>
                                 <div>{data.status === "RELEASE" ? "Lançamento" : data.status}</div>
                                 <div>{data.purpose === "HOME" ? "Residencial" : data.purpose}</div>
