@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import {Input, InputContainer, ErrorMessage, Select, Button  } from './style';
+import {Input, InputContainer, ErrorMessage, Select, Button, FormContainer, AddressContainer, SubTitle, InputsContainer } from './style';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './schema';
 import { EnterprisesApi } from '../../../services/api/enterprises';
 import { Address, getAddress } from '../../../utils/helpers/getAddress';
+
 
 type FormValues = {
   name: string;
@@ -39,6 +40,9 @@ export default function RegisterForm () {
     try {
       address.number = formData.number;
       const response = await EnterprisesApi.create({...formData, address});
+      if (response) {
+        alert('Empreendimento cadastrado com sucesso');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -58,7 +62,9 @@ export default function RegisterForm () {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <InputsContainer>
+      <SubTitle>Informações</SubTitle>
       <InputContainer>
         <Select id="status" {...register("status")} >
           <option value="BREVE_LANCAMENTO">Breve lançamento</option>
@@ -113,6 +119,15 @@ export default function RegisterForm () {
         {errors.cep && <ErrorMessage>{errors.cep.message}</ErrorMessage>}
       </InputContainer>
 
+      {address.city && (
+        <AddressContainer>
+          <span>{address.street},</span> <br></br>
+          <span>{address.district},</span> <br></br>
+          <span>{address.city},</span> <br></br>
+          <span>{address.state}</span>
+        </AddressContainer>
+      )}
+
       <InputContainer>
         <Input
           type="text"
@@ -121,7 +136,8 @@ export default function RegisterForm () {
         />
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
       </InputContainer>
-      <Button type="submit">Enviar</Button>
-    </form>
+      </InputsContainer>
+      <Button type="submit">Cadastrar</Button>
+    </FormContainer>
   );
 };
