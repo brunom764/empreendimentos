@@ -5,6 +5,7 @@ import { EnterprisesApi } from "../services/api/enterprises";
 import { Enterprise } from "../utils/types/enterprises";
 import SearchBar from "../components/searchBar";
 import EnterpriseCard from "../components/enterpriseCard";
+import { useRouter } from "next/dist/client/router";
 
 type HomeProps = {
     enterprises: Enterprise[];
@@ -12,11 +13,11 @@ type HomeProps = {
 
 export default function Home(props: HomeProps) {
     const [enterprises, setEnterprises] = useState(props.enterprises);
-    const [isHome, setIsHome] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState(enterprises);
+    const router = useRouter();
 
     const numberEnterprises = () => {
         setEnterprisesNumber(enterprises.length)
@@ -26,14 +27,6 @@ export default function Home(props: HomeProps) {
         numberEnterprises()
     })
 
-    const handleHereNewEnterprise = () => {
-        setIsHome(false);
-    }
-
-    const handleHome = () => {
-        setIsHome(true);
-    }
-
     const handleSearch = () => {
         const results = enterprises.filter(
         (enterprise) => enterprise.name.toLowerCase().includes(search.toLowerCase())
@@ -41,16 +34,18 @@ export default function Home(props: HomeProps) {
         setSearchResults(results);
     };
 
+    const goToRegister = () => {
+        router.push('/register');
+    }
+
     return (
         <main>
-            {isHome &&
-            <>
             <Header 
                 title="Empreendimentos" 
                 button={true} 
                 IconReturn={false} 
-                PushButton={handleHereNewEnterprise}
-                PushButtonReturn={handleHome}
+                PushButton={goToRegister}
+                PushButtonReturn={() => {}}
             />
             <SearchBar handleSearch={handleSearch}
                         searchTerm={search}
@@ -67,8 +62,6 @@ export default function Home(props: HomeProps) {
                 )
             })}
             {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)}/>}
-            </>
-            }
         </main>
     )
   }

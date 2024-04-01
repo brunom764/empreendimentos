@@ -1,11 +1,10 @@
-import axios, { Axios } from "axios";
 import { Enterprise } from "../../../utils/types/enterprises";
 import { GetServerSidePropsContext } from "next";
 import { HttpHandler } from "../../../utils/network";
 
 export class EnterprisesApi {
     
-    static  async create(enterprise: Enterprise): Promise<Enterprise>{
+    static  async create(enterprise: Omit<Enterprise,'_id'>): Promise<Enterprise>{
         const handler = new HttpHandler();
         const response = await handler.post<Enterprise>('/enterprises', enterprise);
         if (response.success){
