@@ -14,6 +14,7 @@ import {
 } from "./styles";
 import { EnterprisesApi } from "../services/api/enterprises";
 import { Enterprise } from "../utils/types/enterprises";
+import SearchBar from "../components/searchBar";
 
 type HomeProps = {
     enterprises: Enterprise[];
@@ -25,8 +26,8 @@ export default function Home(props: HomeProps) {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
     const [search, setSearch] = useState("")
-
     const [openModalDelete, setOpenModalDelete] = useState(false);
+    const [searchResults, setSearchResults] = useState(enterprises);
 
 
 function numberEnterprises() {
@@ -58,11 +59,13 @@ async function DeleteEnterprise(id: string) {
 }
 
 
-const  handleSearch = enterprises.filter((body: any) => {
-    return body.name
-    .toLowerCase()
-    .includes(search.toLocaleLowerCase())  
-})
+const handleSearch = () => {
+    const results = enterprises.filter(
+      (enterprise) => enterprise.name.toLowerCase().includes(search.toLowerCase())
+    );
+  
+    setSearchResults(results);
+  };
 
     return (
       <>
@@ -82,28 +85,15 @@ const  handleSearch = enterprises.filter((body: any) => {
             />
             <ContainertLupa>
                 <ContentLupa>
-                    <div>
-                    <Input
-                    fullWidth
-                    id="standard-adornment-password"
-                    onChange={(e) => {
-                        setSearch(e.target.value)
-                    }}
-                    endAdornment={
-                      <InputAdornment onClick={handleSearch} position="start">
-                        <IconButton type="submit" aria-label="search">
-                        <img src="/images/Vector (1).svg" alt="Icone Lupa" />
-                        Buscar
-                        </IconButton>
-                    </InputAdornment>
-                       }
+                    <SearchBar handleSearch={handleSearch}
+                               searchTerm={search}
+                               setSearchTerm={setSearch}
                     />
-                    </div>
                 </ContentLupa>
             </ContainertLupa>
-            {handleSearch.slice(0, rowsPerPage).map((data: any) => {
+            {searchResults.slice(0, rowsPerPage).map((data: Enterprise) => {
                 return (
-                    <ContainerHome key={data.id}>
+                    <ContainerHome key={data._id}>
                         <ContentHome>
                             {openModalDelete && 
                                 <Alert
