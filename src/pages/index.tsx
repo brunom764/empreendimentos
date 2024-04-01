@@ -13,7 +13,6 @@ type HomeProps = {
 
 export default function Home(props: HomeProps) {
     const [enterprises, setEnterprises] = useState(props.enterprises);
-    const [isHome, setIsHome] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
     const [search, setSearch] = useState("")
@@ -28,10 +27,6 @@ export default function Home(props: HomeProps) {
         numberEnterprises()
     })
 
-    const handleHome = () => {
-        setIsHome(true);
-    }
-
     const handleSearch = () => {
         const results = enterprises.filter(
         (enterprise) => enterprise.name.toLowerCase().includes(search.toLowerCase())
@@ -45,14 +40,12 @@ export default function Home(props: HomeProps) {
 
     return (
         <main>
-            {isHome &&
-            <>
             <Header 
                 title="Empreendimentos" 
                 button={true} 
                 IconReturn={false} 
                 PushButton={goToRegister}
-                PushButtonReturn={handleHome}
+                PushButtonReturn={() => {}}
             />
             <SearchBar handleSearch={handleSearch}
                         searchTerm={search}
@@ -69,8 +62,6 @@ export default function Home(props: HomeProps) {
                 )
             })}
             {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)}/>}
-            </>
-            }
         </main>
     )
   }

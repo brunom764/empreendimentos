@@ -1,4 +1,3 @@
-import axios, { Axios } from "axios";
 import { Enterprise } from "../../../utils/types/enterprises";
 import { GetServerSidePropsContext } from "next";
 import { HttpHandler } from "../../../utils/network";
