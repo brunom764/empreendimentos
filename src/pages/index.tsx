@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import ButtonFooter from "../components/buttonFooter/buttonFooter";
 import Header from "../components/Header";
-import { ContainertLupa, ContentLupa } from "./styles";
 import { EnterprisesApi } from "../services/api/enterprises";
 import { Enterprise } from "../utils/types/enterprises";
 import SearchBar from "../components/searchBar";
@@ -53,14 +52,10 @@ export default function Home(props: HomeProps) {
                 PushButton={handleHereNewEnterprise}
                 PushButtonReturn={handleHome}
             />
-            <ContainertLupa>
-                <ContentLupa>
-                    <SearchBar handleSearch={handleSearch}
-                               searchTerm={search}
-                               setSearchTerm={setSearch}
-                    />
-                </ContentLupa>
-            </ContainertLupa>
+            <SearchBar handleSearch={handleSearch}
+                        searchTerm={search}
+                        setSearchTerm={setSearch}
+            />
             {searchResults.slice(0, rowsPerPage).map((data: Enterprise) => {
                 return (
                     <EnterpriseCard 
@@ -78,7 +73,6 @@ export default function Home(props: HomeProps) {
     )
   }
 
-
   export async function getServerSideProps() {
     try {
         const enterprises = await EnterprisesApi.getEnterprises();
@@ -93,7 +87,6 @@ export default function Home(props: HomeProps) {
             props: {
                 enterprises: []
             }
-        
         }
     }
   }
