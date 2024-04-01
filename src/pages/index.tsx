@@ -12,10 +12,15 @@ import {
     ContainertLupa, 
     ContentLupa, 
 } from "./styles";
+import { EnterprisesApi } from "../services/api/enterprises";
+import { Enterprise } from "../utils/types/enterprises";
 
+type HomeProps = {
+    enterprises: Enterprise[];
+}
 
-export default function Home() {
-    const [enterprises, setEnterprises] = useState([]);
+export default function Home(props: HomeProps) {
+    const [enterprises, setEnterprises] = useState(props.enterprises);
     const [isHome, setIsHome] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
@@ -23,11 +28,6 @@ export default function Home() {
 
     const [openModalDelete, setOpenModalDelete] = useState(false);
 
-const Enterprises = async () => {
-    await axios.get('http://localhost:3001/enterprises').then((response) => {
-        setEnterprises(response.data)
-});
-}
 
 function numberEnterprises() {
     setEnterprisesNumber(enterprises.length)
@@ -36,10 +36,6 @@ function numberEnterprises() {
 useEffect(() => {
     numberEnterprises()
 })
-
-useEffect(() => {
-    Enterprises()
-}, [])
 
 function handleHereNewEnterprise() {
     setIsHome(false);
@@ -50,14 +46,15 @@ function handleHome() {
 }
 
 
-async function DeleteEnterprise(value) {
-    await axios.delete(`http://localhost:3001/enterprises/${value}`)
-    .then(() => {
-        setOpenModalDelete(false)
-        Enterprises()
-    }).catch((err) => {
-        window.alert(`Erro ao Deletar, ${err}`)
-    })
+async function DeleteEnterprise(id: string) {
+    try {
+        await EnterprisesApi.delete(id);
+        const newEnterprises = enterprises.filter((enterprise) => enterprise._id !== id);
+        setEnterprises(newEnterprises);
+        setOpenModalDelete(false);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 
@@ -163,3 +160,21 @@ const  handleSearch = enterprises.filter((body: any) => {
   }
 
 
+  export async function getServerSideProps() {
+    try {
+        const enterprises = await EnterprisesApi.getEnterprises();
+        return {
+            props: {
+                enterprises: enterprises
+            }
+        }
+    } catch (error) {
+        console.log(error)
+        return {
+            props: {
+                enterprises: []
+            }
+        
+        }
+    }
+  }

@@ -1,48 +1,54 @@
-import axios from "axios";
+import axios, { Axios } from "axios";
 import { Enterprise } from "../../../utils/types/enterprises";
+import { GetServerSidePropsContext } from "next";
+import { HttpHandler } from "../../../utils/network";
 
 export class EnterprisesApi {
     
-    async create(enterprise: Enterprise): Promise<Enterprise>{
-        const url =  process.env.SERVER_URL + '/enterprises';
-        const response = await axios.post(url, enterprise);
-        if (response.status !== 200){
+    static  async create(enterprise: Enterprise): Promise<Enterprise>{
+        const handler = new HttpHandler();
+        const response = await handler.post<Enterprise>('/enterprises', enterprise);
+        if (response.success){
+            return response.data;
+        } else {
             throw new Error('Error to create enterprise');
         }
-        return response.data;
     }
 
-    async getEnterprises(): Promise<Enterprise[]>{
-        const url =  process.env.SERVER_URL + '/enterprises';
-        const response = await axios.get(url);
-        if (response.status !== 200){
+    static  async getEnterprises(ctx?: GetServerSidePropsContext): Promise<Enterprise[]>{
+        const handler = new HttpHandler(ctx);
+        const response = await handler.get<Enterprise[]>('/enterprises');
+        if (response.success){
+            return response.data;
+        } else {
             throw new Error('Error to get enterprises');
         }
-        return response.data;
     }
 
-    async getEnterprise(id: string): Promise<Enterprise>{
-        const url =  process.env.SERVER_URL + `/enterprises/${id}`;
-        const response = await axios.get(url);
-        if (response.status !== 200){
+    static  async getEnterprise(id: string): Promise<Enterprise>{
+        const handler = new HttpHandler();
+        const response = await handler.get<Enterprise>(`/enterprises/${id}`);
+        if (response.success){
+            return response.data;
+        } else {
             throw new Error('Error to get enterprise');
         }
-        return response.data;
     }
 
-    async update(enterprise: Enterprise): Promise<Enterprise>{
-        const url =  process.env.SERVER_URL + `/enterprises/${enterprise._id}`;
-        const response = await axios.put(url, enterprise);
-        if (response.status !== 200){
+    static  async update(enterprise: Enterprise): Promise<Enterprise>{
+        const handler = new HttpHandler();
+        const response = await handler.put<Enterprise>(`/enterprises/${enterprise._id}`, enterprise);
+        if (response.success){
+            return response.data;
+        } else {
             throw new Error('Error to update enterprise');
         }
-        return response.data;
     }
 
-    async delete(id: string): Promise<void>{
-        const url =  process.env.SERVER_URL + `/enterprises/${id}`;
-        const response = await axios.delete(url);
-        if (response.status !== 200){
+    static  async delete(id: string): Promise<void>{
+        const handler = new HttpHandler();
+        const response = await handler.delete<void>(`/enterprises/${id}`);
+        if (!response.success){
             throw new Error('Error to delete enterprise');
         }
     }
