@@ -17,7 +17,7 @@ export default function Home(props: HomeProps) {
     const [enterprises, setEnterprises] = useState(props.enterprises);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
-    const [search, setSearch] = useState("")
+    //const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState(enterprises);
     const router = useRouter();
 
@@ -29,7 +29,11 @@ export default function Home(props: HomeProps) {
         numberEnterprises()
     })
 
-    const handleSearch = () => {
+    const handleSearch = (search?: string) => {
+        if (!search) {
+            setSearchResults(enterprises);
+            return;
+        }
         const results = enterprises.filter(
         (enterprise) => enterprise.name.toLowerCase().includes(search.toLowerCase())
         );
@@ -53,10 +57,7 @@ export default function Home(props: HomeProps) {
                 PushButton={goToRegister}
                 PushButtonReturn={() => {}}
             />
-            <SearchBar handleSearch={handleSearch}
-                        searchTerm={search}
-                        setSearchTerm={setSearch}
-            />
+            <SearchBar handleSearch={handleSearch}/>
             <CardsContainer>
                 {searchResults.slice(0, rowsPerPage).map((data: Enterprise) => {
                     return (

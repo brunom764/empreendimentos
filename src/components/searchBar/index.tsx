@@ -4,12 +4,10 @@ import { Input, InputAdornment, IconButton } from '@material-ui/core';
 import { ContainerLupa, ContentLupa } from './style';
 
 type SearchBarProps = {
-  handleSearch: () => void;
-  searchTerm: string;
-  setSearchTerm: (searchTerm: string) => void;
+  handleSearch: (search: string) => void;
 };
 
-export default function SearchBar ({ handleSearch, searchTerm, setSearchTerm }: SearchBarProps) {
+export default function SearchBar ({ handleSearch }: SearchBarProps) {
 
   return (
     <ContainerLupa>
@@ -18,10 +16,12 @@ export default function SearchBar ({ handleSearch, searchTerm, setSearchTerm }: 
             fullWidth
             id="standard-adornment-password"
             placeholder='Buscar'
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) =>  { 
+              handleSearch(e.target.value)
+            }}
             startAdornment={
-              <InputAdornment onClick={handleSearch} position="start">
-                <IconButton type="submit" aria-label="search">
+              <InputAdornment position="start">
+                <IconButton  aria-label="search">
                 <img src="/images/Vector (1).svg" alt="Icone Lupa" />
                 </IconButton>
               </InputAdornment>
