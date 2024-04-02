@@ -8,12 +8,13 @@ import { Address, getAddress } from '../../../utils/helpers/getAddress';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/dist/client/router';
 import { Routes } from '../../../utils/environment/routes';
+import { Purpose, Status } from '../../../utils/types/enterprises';
 
 
 type FormValues = {
   name: string;
-  status: string;
-  purpose: string;
+  status: Status | string;
+  purpose: Purpose | string;
   cep: string;
   number: string;
   ri_number: string;
@@ -88,11 +89,11 @@ export default function RegisterForm () {
       <SubTitle>Informações</SubTitle>
       <InputContainer>
         <Select id="status" {...register("status")} >
-          <option value="SOON_RELEASE">Breve lançamento</option>
-          <option value="IN_WORKS">Em obras</option>
-          <option value="RELEASE">Lançamento</option>
-          <option value="READY">Pronto para morar</option>
-
+        {Object.entries(Status).map(([key, value]) => (
+          <option key={key} value={value}>
+            {value}
+          </option>
+      ))}
          </Select>
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
       </InputContainer>
@@ -119,8 +120,11 @@ export default function RegisterForm () {
 
       <InputContainer>
         <Select id="purpose" {...register("purpose")} >
-          <option value="HOME">Residencial</option>
-          <option value="COMMERCIAL">Comercial</option>
+        {Object.entries(Purpose).map(([key, value]) => (
+          <option key={key} value={value}>
+            {value}
+          </option>
+      ))}
         </Select>
         {errors.purpose && <ErrorMessage>{errors.purpose.message}</ErrorMessage>}
       </InputContainer>
