@@ -7,10 +7,11 @@ import { BoxNameEnterprise, ContainerHome, ContainerOptions, ContentHome, Conten
 
 type EnterpriseCardProps = {
     enterprise: Enterprise;
-    deleteEnterprise: (id: string) => void;
+    enterprises: Enterprise[];
+    setEnterprises: (enterprises: Enterprise[]) => void;
 }
 
-export default function EnterpriseCard({enterprise,  deleteEnterprise }: EnterpriseCardProps) {
+export default function EnterpriseCard({enterprise, setEnterprises, enterprises }: EnterpriseCardProps) {
     const [openModalDelete, setOpenModalDelete] = useState(false);
     
     return  (
@@ -20,7 +21,8 @@ export default function EnterpriseCard({enterprise,  deleteEnterprise }: Enterpr
             (<ModalDelete 
             setOpenModalDelete={setOpenModalDelete}
             id={enterprise._id}
-            deleteEnterprise={deleteEnterprise}
+            setEnterprises={setEnterprises}
+            enterprises={enterprises}
             />) :
             <>
             <BoxNameEnterprise>                      

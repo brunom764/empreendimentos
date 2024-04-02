@@ -1,21 +1,24 @@
 import {Alert, Button, } from "@material-ui/core";
 import { EnterprisesApi } from "../../services/api/enterprises";
 import Swal from "sweetalert2";
+import { Enterprise } from "../../utils/types/enterprises";
 
 type ModalDeleteProps = {
     setOpenModalDelete: (open: boolean) => void;
     id: string;
-    deleteEnterprise: (id: string) => void;
+    enterprises: Enterprise[];
+    setEnterprises: (enterprises: Enterprise[]) => void;
 }
 
 export default  function ModalDelete(
-    { setOpenModalDelete, id, deleteEnterprise }: ModalDeleteProps) {
+    { setOpenModalDelete, id, enterprises, setEnterprises }: ModalDeleteProps) {
 
     async function DeleteEnterprise(id: string) {
         try {
             await EnterprisesApi.delete(id);
+            const newEnterprises = enterprises.filter((enterprise:Enterprise) => enterprise._id !== id);
+            setEnterprises(newEnterprises);
             setOpenModalDelete(false);
-            deleteEnterprise(id);
         } catch (error) {
             Swal.fire({
                 icon: "error",
