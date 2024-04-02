@@ -19,7 +19,7 @@ export default class EnterpriseController extends BaseController {
     async create(req: Request, res: Response) {
         try {
             await this.enterpriseService.create(req.body);
-            return this.handleResponse(res, { message: 'Enterprise created successfully' });
+            return this.handleResponse(res.status(201), { message: 'Enterprise created successfully' });
         } catch (error) {
             return this.handleError(res, error as Error);
         }
