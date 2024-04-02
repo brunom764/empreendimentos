@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import ButtonFooter from "../components/buttonFooter/buttonFooter";
 import Header from "../components/Header";
@@ -6,6 +7,7 @@ import { Enterprise } from "../utils/types/enterprises";
 import SearchBar from "../components/searchBar";
 import EnterpriseCard from "../components/enterpriseCard";
 import { useRouter } from "next/dist/client/router";
+import { CardsContainer } from "./styles";
 
 type HomeProps = {
     enterprises: Enterprise[];
@@ -55,17 +57,22 @@ export default function Home(props: HomeProps) {
                         searchTerm={search}
                         setSearchTerm={setSearch}
             />
-            {searchResults.slice(0, rowsPerPage).map((data: Enterprise) => {
-                return (
-                    <EnterpriseCard 
-                        key= {data._id} 
-                        enterprise={data}
-                        enterprises={enterprises}
-                        setEnterprises={setEnterprises}
-                    />
-                )
-            })}
-            {(enterprisesNumber >= rowsPerPage) && <ButtonFooter description={"Carregar mais"} pushClick={() => setRowsPerPage(rowsPerPage + 5)}/>}
+            <CardsContainer>
+                {searchResults.slice(0, rowsPerPage).map((data: Enterprise) => {
+                    return (
+                        <EnterpriseCard 
+                            key= {data._id} 
+                            enterprise={data}
+                            enterprises={enterprises}
+                            setEnterprises={setEnterprises}
+                        />
+                    )
+                })}
+                {(enterprisesNumber >= rowsPerPage) &&
+                    <ButtonFooter description={"Carregar mais"} 
+                    pushClick={() => setRowsPerPage(rowsPerPage + 5)}
+                />}
+            </CardsContainer>
         </main>
     )
   }
