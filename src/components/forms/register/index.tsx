@@ -5,6 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../schema';
 import { EnterprisesApi } from '../../../services/api/enterprises';
 import { Address, getAddress } from '../../../utils/helpers/getAddress';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/dist/client/router';
 
 
 type FormValues = {
@@ -26,6 +28,7 @@ export default function RegisterForm () {
     number: '',
     cep: ''
   });
+  const router = useRouter();
 
   const {
     register,
@@ -42,10 +45,26 @@ export default function RegisterForm () {
       address.cep = formData.cep;
       const response = await EnterprisesApi.create({...formData, address});
       if (response) {
-        alert('Empreendimento cadastrado com sucesso');
+        Swal.fire({
+          title: "Empreendimento cadastrado com sucesso! Você deseja cadastrar mais um?",
+          showDenyButton: true,
+          confirmButtonText: "Sim",
+          denyButtonText: `Retornar ao menu `
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          } else if (result) {
+              router.push("/");
+          }
+        });
       }
     } catch (error) {
-      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo deu errado! Tente novamente mais tarde.",
+        footer: '<a href="https://www.construtorapatriani.com.br/">Se o erro persistir, contate-nos</a>'
+      });
     }
   };
 
