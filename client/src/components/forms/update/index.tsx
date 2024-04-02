@@ -8,6 +8,7 @@ import { Address, getAddress } from '../../../utils/helpers/getAddress';
 import { Enterprise } from '../../../utils/types/enterprises';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/dist/client/router';
+import { Routes } from '../../../utils/environment/routes';
 
 
 type FormValues = {
@@ -59,7 +60,7 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
           if (result.isConfirmed) {
             window.location.reload();
           } else if (result) {
-              router.push("/");
+              router.push(Routes.HOME);
           }
         });
       }

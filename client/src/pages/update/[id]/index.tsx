@@ -6,6 +6,7 @@ import { EnterprisesApi } from '../../../services/api/enterprises';
 import { Enterprise } from '../../../utils/types/enterprises';
 import { GetServerSidePropsContext } from 'next';
 import UpdateForm from '../../../components/forms/update';
+import { Routes } from '../../../utils/environment/routes';
 
 type UpdateEnterpriseType = {
     enterprise: Enterprise;
@@ -14,7 +15,7 @@ type UpdateEnterpriseType = {
 export default function UpdateEnterprise({ enterprise }: UpdateEnterpriseType) {
   const router = useRouter();
   const goToHome = () => {
-    router.push('/');
+    router.push(Routes.HOME);
   }
   return (
     <>
@@ -44,6 +45,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         }
     } catch (error) {
         console.log(error)
-        return { redirect: { destination: "/", permanent: false } };
+        return { redirect: { destination: Routes.HOME, permanent: false } };
     }
 }

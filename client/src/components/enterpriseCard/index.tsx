@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Enterprise } from "../../utils/types/enterprises";
 import ModalDelete from "../modals/modalDelete";
 import { BoxNameEnterprise, ContainerHome, ContainerOptions, ContentHome, ContentOptions, ContentStatus } from "./styles";
+import { Routes } from "../../utils/environment/routes";
 
 type EnterpriseCardProps = {
     enterprise: Enterprise;
@@ -37,7 +38,7 @@ export default function EnterpriseCard({enterprise, setEnterprises, enterprises 
                 <div>{enterprise.purpose === "HOME" ? "Residencial" : enterprise.purpose}</div>
             </ContentStatus>
             <ContentOptions>
-                <Link href={`/update/${enterprise._id}`} passHref>
+                <Link href={`${Routes.UPDATE}/${enterprise._id}`} passHref>
                 <img 
                     src="/images/Vector.svg" 
                     alt="Icone de Lapis" 

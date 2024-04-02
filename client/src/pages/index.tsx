@@ -8,6 +8,7 @@ import SearchBar from "../components/searchBar";
 import EnterpriseCard from "../components/enterpriseCard";
 import { useRouter } from "next/dist/client/router";
 import { CardsContainer } from "./styles";
+import { Routes } from "../utils/environment/routes";
 
 type HomeProps = {
     enterprises: Enterprise[];
@@ -17,7 +18,6 @@ export default function Home(props: HomeProps) {
     const [enterprises, setEnterprises] = useState(props.enterprises);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [enterprisesNumber, setEnterprisesNumber] = useState(0)
-    //const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState(enterprises);
     const router = useRouter();
 
@@ -45,7 +45,7 @@ export default function Home(props: HomeProps) {
     }, [enterprises])
 
     const goToRegister = () => {
-        router.push('/register');
+        router.push(Routes.REGISTER);
     }
 
     return (
