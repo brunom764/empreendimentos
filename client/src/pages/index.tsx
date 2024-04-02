@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ButtonFooter from "../components/buttonFooter/buttonFooter";
 import Header from "../components/Header";
 import { EnterprisesApi } from "../services/api/enterprises";
@@ -20,11 +20,12 @@ export default function Home(props: HomeProps) {
         enterprises,
         rowsPerPage,
         enterprisesNumber,
+        searchResults,
         setEnterprises,
         setRowsPerPage,
         setEnterprisesNumber,
+        setSearchResults
       } = useEnterpriseHook(props.enterprises);
-    const [searchResults, setSearchResults] = useState(enterprises);
     const router = useRouter();
 
     const numberEnterprises = () => {
