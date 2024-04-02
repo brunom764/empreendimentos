@@ -9,15 +9,21 @@ import EnterpriseCard from "../components/enterpriseCard";
 import { useRouter } from "next/dist/client/router";
 import { CardsContainer } from "./styles";
 import { Routes } from "../utils/environment/routes";
+import useEnterpriseHook from "../hooks/enterprise";
 
 type HomeProps = {
     enterprises: Enterprise[];
 }
 
 export default function Home(props: HomeProps) {
-    const [enterprises, setEnterprises] = useState(props.enterprises);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [enterprisesNumber, setEnterprisesNumber] = useState(0)
+    const {
+        enterprises,
+        rowsPerPage,
+        enterprisesNumber,
+        setEnterprises,
+        setRowsPerPage,
+        setEnterprisesNumber,
+      } = useEnterpriseHook(props.enterprises);
     const [searchResults, setSearchResults] = useState(enterprises);
     const router = useRouter();
 
