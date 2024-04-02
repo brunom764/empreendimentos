@@ -18,8 +18,8 @@ export default class EnterpriseController extends BaseController {
 
     async create(req: Request, res: Response) {
         try {
-            const response = await this.enterpriseService.create(req.body);
-            return this.handleResponse(res, response);
+            await this.enterpriseService.create(req.body);
+            return this.handleResponse(res, { message: 'Enterprise created successfully' });
         } catch (error) {
             return this.handleError(res, error as Error);
         }
@@ -45,7 +45,7 @@ export default class EnterpriseController extends BaseController {
 
     async update(req: Request, res: Response) {
         try {
-            const response = await this.enterpriseService.update(req.body);
+            const response = await this.enterpriseService.update(req.params, req.body);
             return this.handleResponse(res, response);
         } catch (error) {
             return this.handleError(res, error as Error);

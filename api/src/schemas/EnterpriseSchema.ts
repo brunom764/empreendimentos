@@ -12,7 +12,6 @@ const AddressSchema = yup.object({
 const EnterpriseSchema = {
     create: {
         body: yup.object({
-            _id: yup.string().required(),
             name: yup.string().required(),
             status: yup.string().required(),
             purpose: yup.string().required(),
@@ -22,7 +21,7 @@ const EnterpriseSchema = {
     },
     find: {
         params: yup.object({
-            _id: yup.string().required()
+            id: yup.string().required()
         }).noUnknown()
     },
     list: {
@@ -30,7 +29,7 @@ const EnterpriseSchema = {
     },
     update: {
         params: yup.object({
-            _id: yup.string().required()
+            id: yup.string().required()
         }).noUnknown(),
         body: yup.object({
             name: yup.string(),
@@ -42,7 +41,7 @@ const EnterpriseSchema = {
     },
     delete: {
         params: yup.object({
-            _id: yup.string().required()
+            id: yup.string().required()
         }).noUnknown()
     }
 };

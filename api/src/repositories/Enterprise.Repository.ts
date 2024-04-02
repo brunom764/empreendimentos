@@ -68,8 +68,7 @@ export class EnterpriseRepository {
         });
     }
 
-    async update(enterpriseData :Enterprise): Promise<void>  {
-       const id = enterpriseData._id;
+    async update(id: string, enterpriseData: Omit<Enterprise,'_id'>): Promise<void>  {
        await this.prisma.enterprise.update({ where: { id }, data: enterpriseData });
     }
 

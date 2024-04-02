@@ -6,7 +6,7 @@ export class EnterprisesApi {
     
     static  async create(enterprise: Omit<Enterprise,'_id'>): Promise<Enterprise>{
         const handler = new HttpHandler();
-        const response = await handler.post<Enterprise>('/enterprises', enterprise);
+        const response = await handler.post<Enterprise>('/enterprise', enterprise);
         if (response.success){
             return response.data;
         } else {
@@ -16,7 +16,7 @@ export class EnterprisesApi {
 
     static  async getEnterprises(ctx?: GetServerSidePropsContext): Promise<Enterprise[]>{
         const handler = new HttpHandler(ctx);
-        const response = await handler.get<Enterprise[]>('/enterprises');
+        const response = await handler.get<Enterprise[]>('/enterprise');
         if (response.success){
             return response.data;
         } else {
@@ -26,7 +26,7 @@ export class EnterprisesApi {
 
     static  async getEnterprise(id: string): Promise<Enterprise>{
         const handler = new HttpHandler();
-        const response = await handler.get<Enterprise>(`/enterprises/${id}`);
+        const response = await handler.get<Enterprise>(`/enterprise/${id}`);
         /*const response = {
             "_id": "PA01",
             "name": "Sirius Vila Bastos",
@@ -51,7 +51,7 @@ export class EnterprisesApi {
 
     static  async update(enterprise: Enterprise): Promise<Enterprise>{
         const handler = new HttpHandler();
-        const response = await handler.put<Enterprise>(`/enterprises/${enterprise._id}`, enterprise);
+        const response = await handler.put<Enterprise>(`/enterprise/${enterprise._id}`, enterprise);
         if (response.success){
             return response.data;
         } else {
@@ -61,7 +61,7 @@ export class EnterprisesApi {
 
     static  async delete(id: string): Promise<void>{
         const handler = new HttpHandler();
-        const response = await handler.delete<void>(`/enterprises/${id}`);
+        const response = await handler.delete<void>(`/enterprise/${id}`);
         if (!response.success){
             throw new Error('Error to delete enterprise');
         }
