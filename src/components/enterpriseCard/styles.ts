@@ -86,6 +86,7 @@ export const ContentOptions = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
+    padding-right: 1rem;
 
     img {
         cursor: pointer;

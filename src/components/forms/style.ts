@@ -31,6 +31,10 @@ export const Input = styled.input`
     border-color: #000;
   }
 
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
 `;
 
 export const ErrorMessage = styled.span`
@@ -44,7 +48,6 @@ export const Select = styled.select`
   border: none;
   border-bottom: 1px solid #ccc;
   font-size: 1rem;
-
   &:focus {
     border-color: #000;
   }
