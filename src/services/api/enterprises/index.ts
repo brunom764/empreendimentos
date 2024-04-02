@@ -44,10 +44,12 @@ export class EnterprisesApi {
         }
     }
 
-    static  async delete(id: string): Promise<void>{
+    static  async delete(id: string) {
         const handler = new HttpHandler();
         const response = await handler.delete<void>(`/enterprise/${id}`);
-        if (!response.success){
+        if (response.success){
+            return response.data;
+        } else {
             throw new Error('Error to delete enterprise');
         }
     }

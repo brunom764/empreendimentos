@@ -23,6 +23,11 @@ export default function Home(props: HomeProps) {
         setEnterprisesNumber(enterprises.length)
     }
 
+    const deleteEnterprise = (id: string) => {
+        const newEnterprises = enterprises.filter((enterprise:Enterprise) => enterprise._id !== id);
+        setEnterprises(newEnterprises);
+    }
+
     useEffect(() => {
         numberEnterprises()
     })
@@ -56,8 +61,7 @@ export default function Home(props: HomeProps) {
                     <EnterpriseCard 
                         key= {data._id} 
                         enterprise={data}
-                        enterprises={enterprises}
-                        setEnterprises={setEnterprises}
+                        deleteEnterprise={deleteEnterprise}
                     />
                 )
             })}

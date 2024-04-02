@@ -45,7 +45,7 @@ export default class EnterpriseController extends BaseController {
 
     async update(req: Request, res: Response) {
         try {
-            const response = await this.enterpriseService.update(req.params, req.body);
+            await this.enterpriseService.update(req.params, req.body);
             return this.handleResponse(res, { message: 'Enterprise update successfully' });
         } catch (error) {
             return this.handleError(res, error as Error);
@@ -54,8 +54,8 @@ export default class EnterpriseController extends BaseController {
 
     async delete(req: Request, res: Response) {
         try {
-            const response = await this.enterpriseService.delete(req.params.id);
-            return this.handleResponse(res, response);
+            await this.enterpriseService.delete(req.params.id);
+            return this.handleResponse(res, { message: 'Enterprise deleted successfully' });
         } catch (error) {
             return this.handleError(res, error as Error);
         }
