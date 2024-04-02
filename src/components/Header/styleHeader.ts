@@ -2,9 +2,8 @@ import styled from 'styled-components';
 
 
 export const HeaderContainerAll = styled.header`
-    width: 1920px;
     max-width: 100%;
-    height: 80px;
+    height: 5rem;
     background: #FFFFFF;
 
     display: flex;
@@ -16,7 +15,7 @@ export const HeaderContainerAll = styled.header`
 export const BoxAdd = styled.div<{ return: boolean }>`
         width: ${props => (props.return ? `92%` : `100%`)};
         height: 100%;
-        padding: ${props => (props.return ? `0 10rem 0 2rem` : `0 10rem`)};
+        padding: ${props => (props.return ? `0 10rem 0 2rem` : `0 5rem`)};
         display: flex;
         align-items: center;
         justify-content: space-between;
