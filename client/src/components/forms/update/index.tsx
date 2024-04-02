@@ -161,7 +161,7 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
           placeholder="Number"
           {...register("number")}
         />
-        {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
+        {errors.number && <ErrorMessage>{errors.number.message}</ErrorMessage>}
       </InputContainer>
       </InputsContainer>
       <Button type="submit">Editar</Button>

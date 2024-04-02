@@ -160,7 +160,7 @@ export default function RegisterForm () {
           placeholder="Number"
           {...register("number")}
         />
-        {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
+        {errors.number && <ErrorMessage>{errors.number.message}</ErrorMessage>}
       </InputContainer>
       </InputsContainer>
       <Button type="submit">Cadastrar</Button>

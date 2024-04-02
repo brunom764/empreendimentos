@@ -1,10 +1,22 @@
 import * as uuid from 'uuid';
 
+export enum Status {
+  SOON_RELEASE = "em breve",
+  IN_WORKS = "Em obras",
+  READY = "Pronto para morar",
+  RELEASE = "Lançamento"
+}
+
+export enum Purpose {
+ HOME = "residencial",
+ COMMERCIAL = "Comercial"
+}
+
 type EnterpriseProps = {
   _id: string;
   name: string;
-  status: string;
-  purpose: string;
+  status: Status | string;
+  purpose: Purpose | string;
   ri_number: string;
   address: Address;
 }
@@ -21,8 +33,8 @@ export interface Address {
 export class Enterprise {
   readonly _id: string;
   name: string;
-  status: string;
-  purpose: string;
+  status: Status |  string;
+  purpose: Purpose | string;
   ri_number: string;
   address: Address;
 
@@ -37,8 +49,8 @@ export class Enterprise {
 
   static create(
     name: string,
-    status: string,
-    purpose: string,
+    status: Status | string,
+    purpose: Purpose | string,
     ri_number: string,
     address: Address
   ): Enterprise {
