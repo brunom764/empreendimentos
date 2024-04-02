@@ -9,13 +9,20 @@ export const ContainerHome = styled.div`
 
 export const ContentHome = styled.div`
     width: 80%;
-    height: 8rem;
+    min-height: 8rem;
     background: #FFFFFF;
     border-radius: 8px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem 3.4rem;
+    padding: 2rem 3rem;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    @media (max-width: 720px) {
+        padding: 1rem;
+        flex-direction: column;
+    }
 `
 
 export const BoxNameEnterprise = styled.div`
@@ -36,9 +43,7 @@ export const BoxNameEnterprise = styled.div`
     }
 
     p {
-        font-family: Inter, sans-serif;
-        font-weight: 300;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         margin-top: 0.75rem;
         color: #6D6C7B;
     }
@@ -81,6 +86,7 @@ export const ContentOptions = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
+    padding-right: 1rem;
 
     img {
         cursor: pointer;
@@ -93,5 +99,9 @@ export const ContentOptions = styled.div`
         & + img {
             margin-left: 0.75rem;
         }
+    }
+
+    @media (max-width: 720px) {
+        justify-content: center;
     }
 `

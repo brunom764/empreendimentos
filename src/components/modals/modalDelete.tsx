@@ -1,16 +1,17 @@
 import {Alert, Button, } from "@material-ui/core";
 import { EnterprisesApi } from "../../services/api/enterprises";
+import Swal from "sweetalert2";
 import { Enterprise } from "../../utils/types/enterprises";
 
 type ModalDeleteProps = {
     setOpenModalDelete: (open: boolean) => void;
+    id: string;
     enterprises: Enterprise[];
     setEnterprises: (enterprises: Enterprise[]) => void;
-    id: string;
 }
 
 export default  function ModalDelete(
-    { setOpenModalDelete, enterprises, setEnterprises, id }: ModalDeleteProps) {
+    { setOpenModalDelete, id, enterprises, setEnterprises }: ModalDeleteProps) {
 
     async function DeleteEnterprise(id: string) {
         try {
@@ -19,7 +20,12 @@ export default  function ModalDelete(
             setEnterprises(newEnterprises);
             setOpenModalDelete(false);
         } catch (error) {
-            console.log(error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo deu errado! Tente novamente mais tarde.",
+                footer: '<a href="https://www.construtorapatriani.com.br/">Se o erro persistir, contate-nos</a>'
+              });
         }
     }
 

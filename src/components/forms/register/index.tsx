@@ -5,6 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from '../schema';
 import { EnterprisesApi } from '../../../services/api/enterprises';
 import { Address, getAddress } from '../../../utils/helpers/getAddress';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/dist/client/router';
 
 
 type FormValues = {
@@ -26,6 +28,7 @@ export default function RegisterForm () {
     number: '',
     cep: ''
   });
+  const router = useRouter();
 
   const {
     register,
@@ -39,12 +42,29 @@ export default function RegisterForm () {
   const onSubmit = async (formData: FormValues) => {
     try {
       address.number = formData.number;
+      address.cep = formData.cep;
       const response = await EnterprisesApi.create({...formData, address});
       if (response) {
-        alert('Empreendimento cadastrado com sucesso');
+        Swal.fire({
+          title: "Empreendimento cadastrado com sucesso! Você deseja cadastrar mais um?",
+          showDenyButton: true,
+          confirmButtonText: "Sim",
+          denyButtonText: `Retornar ao menu `
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          } else if (result) {
+              router.push("/");
+          }
+        });
       }
     } catch (error) {
-      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo deu errado! Tente novamente mais tarde.",
+        footer: '<a href="https://www.construtorapatriani.com.br/">Se o erro persistir, contate-nos</a>'
+      });
     }
   };
 
@@ -67,10 +87,10 @@ export default function RegisterForm () {
       <SubTitle>Informações</SubTitle>
       <InputContainer>
         <Select id="status" {...register("status")} >
-          <option value="BREVE_LANCAMENTO">Breve lançamento</option>
-          <option value="EM_OBRAS">Em obras</option>
-          <option value="LANCAMENTO">Lançamento</option>
-          <option value="PRONTO_PARA_MORAR">Pronto para morar</option>
+          <option value="SOON_RELEASE">Breve lançamento</option>
+          <option value="IN_WORKS">Em obras</option>
+          <option value="RELEASE">Lançamento</option>
+          <option value="READY">Pronto para morar</option>
 
          </Select>
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
@@ -98,8 +118,8 @@ export default function RegisterForm () {
 
       <InputContainer>
         <Select id="purpose" {...register("purpose")} >
-          <option value="RESIDENCIAL">Residencial</option>
-          <option value="COMERCIAL">Comercial</option>
+          <option value="HOME">Residencial</option>
+          <option value="COMMERCIAL">Comercial</option>
         </Select>
         {errors.purpose && <ErrorMessage>{errors.purpose.message}</ErrorMessage>}
       </InputContainer>
@@ -133,6 +153,7 @@ export default function RegisterForm () {
           type="text"
           id="number"
           placeholder="Number"
+          {...register("number")}
         />
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
       </InputContainer>

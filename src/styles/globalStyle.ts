@@ -22,7 +22,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-body, input, textarea, button {
+body, button {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
 }

@@ -20,11 +20,11 @@ export interface Address {
 
 export class Enterprise {
   readonly _id: string;
-  protected name: string;
-  protected status: string;
-  protected purpose: string;
-  protected ri_number: string;
-  protected address: Address;
+  name: string;
+  status: string;
+  purpose: string;
+  ri_number: string;
+  address: Address;
 
   protected constructor(props: EnterpriseProps) {
     this._id = props._id;
@@ -74,6 +74,30 @@ export class Enterprise {
 
   changeAddress(address: Address): void {
     this.address = address;
+  }
+
+  getId(): string {
+    return this._id;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getStatus(): string {
+    return this.status;
+  }
+
+  getPurpose(): string {
+    return this.purpose;
+  }
+
+  getRiNumber(): string {
+    return this.ri_number;
+  }
+
+  getAddress(): Address {
+    return this.address;
   }
 
 }

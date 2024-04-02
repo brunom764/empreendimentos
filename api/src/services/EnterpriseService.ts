@@ -20,7 +20,7 @@ export default class EnterpriseService {
         return await this.enterpriseRepository.create(data);
     }
 
-    async update(id: string, enterprise: Omit<Enterprise,'_id'>): Promise<void> {
+    async update({id}: {id: string}, enterprise: Omit<Enterprise,'_id'>): Promise<void> {
         const oldEnterprise = await this.enterpriseRepository.findById(id);
         if (!oldEnterprise) {
             throw new Error('Enterprise not found');

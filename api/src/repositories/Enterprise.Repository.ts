@@ -68,8 +68,22 @@ export class EnterpriseRepository {
         });
     }
 
-    async update(id: string, enterpriseData: Omit<Enterprise,'_id'>): Promise<void>  {
-       await this.prisma.enterprise.update({ where: { id }, data: enterpriseData });
+    async update(id: string, enterpriseData: Omit<Enterprise,'_id'>): Promise<void>{
+       await this.prisma.enterprise.update({ 
+        where: { id }, 
+        data: {
+            name: enterpriseData.name,
+            status: enterpriseData.status,
+            purpose: enterpriseData.purpose,
+            ri_number: enterpriseData.ri_number,
+            district: enterpriseData.address.district,
+            city: enterpriseData.address.city,
+            street: enterpriseData.address.street,
+            state: enterpriseData.address.state,
+            number: enterpriseData.address.number,
+            cep: enterpriseData.address.cep,
+        }
+        });
     }
 
     async delete(id: string): Promise<void>  {

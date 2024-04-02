@@ -6,6 +6,8 @@ import { schema } from '../schema';
 import { EnterprisesApi } from '../../../services/api/enterprises';
 import { Address, getAddress } from '../../../utils/helpers/getAddress';
 import { Enterprise } from '../../../utils/types/enterprises';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/dist/client/router';
 
 
 type FormValues = {
@@ -20,6 +22,7 @@ type FormValues = {
 export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
 
   const [address, setAddress] = useState<Address>(enterprise.address);
+  const router = useRouter();
 
   const {
     register,
@@ -44,12 +47,29 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
   const onSubmit = async (formData: FormValues) => {
     try {
       address.number = formData.number;
+      address.cep = formData.cep;
       const response = await EnterprisesApi.update({...formData, address, _id: enterprise._id});
       if (response) {
-        alert('Empreendimento cadastrado com sucesso');
+        Swal.fire({
+          title: "Empreendimento cadastrado com sucesso! Você deseja cadastrar mais um?",
+          showDenyButton: true,
+          confirmButtonText: "Sim",
+          denyButtonText: `Retornar ao menu `
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          } else if (result) {
+              router.push("/");
+          }
+        });
       }
     } catch (error) {
-      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo deu errado! Tente novamente mais tarde.",
+        footer: '<a href="https://www.construtorapatriani.com.br/">Se o erro persistir, contate-nos</a>'
+      });
     }
   };
 
@@ -138,6 +158,7 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
           type="text"
           id="number"
           placeholder="Number"
+          {...register("number")}
         />
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
       </InputContainer>
