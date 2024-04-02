@@ -31,14 +31,11 @@ export const Input = styled.input`
     border-color: #000;
   }
 
-  ::placeholder {
-    font-weight: lighter;
-  }
 `;
 
 export const ErrorMessage = styled.span`
   color: red;
-  font-size: 14px;
+  font-size: 0.75rem;
   margin-top: 5px;
 `;
 
@@ -47,7 +44,6 @@ export const Select = styled.select`
   border: none;
   border-bottom: 1px solid #ccc;
   font-size: 1rem;
-  color: #333;
 
   &:focus {
     border-color: #000;
@@ -61,7 +57,6 @@ export const Button = styled.button`
   border: none;
   border-radius: 20px;
   font-size: 0.8rem;
-  font-weight: bold;
   margin: 2rem;
   cursor: pointer;
   &:hover {
