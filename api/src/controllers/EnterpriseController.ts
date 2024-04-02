@@ -46,7 +46,7 @@ export default class EnterpriseController extends BaseController {
     async update(req: Request, res: Response) {
         try {
             const response = await this.enterpriseService.update(req.params, req.body);
-            return this.handleResponse(res, response);
+            return this.handleResponse(res, { message: 'Enterprise update successfully' });
         } catch (error) {
             return this.handleError(res, error as Error);
         }

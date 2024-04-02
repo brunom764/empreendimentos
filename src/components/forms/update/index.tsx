@@ -44,9 +44,10 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
   const onSubmit = async (formData: FormValues) => {
     try {
       address.number = formData.number;
+      address.cep = formData.cep;
       const response = await EnterprisesApi.update({...formData, address, _id: enterprise._id});
       if (response) {
-        alert('Empreendimento cadastrado com sucesso');
+        alert('Empreendimento atualizado com sucesso');
       }
     } catch (error) {
       console.error(error);
@@ -138,6 +139,7 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
           type="text"
           id="number"
           placeholder="Number"
+          {...register("number")}
         />
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
       </InputContainer>

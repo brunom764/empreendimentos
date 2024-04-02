@@ -39,6 +39,7 @@ export default function RegisterForm () {
   const onSubmit = async (formData: FormValues) => {
     try {
       address.number = formData.number;
+      address.cep = formData.cep;
       const response = await EnterprisesApi.create({...formData, address});
       if (response) {
         alert('Empreendimento cadastrado com sucesso');
@@ -67,10 +68,10 @@ export default function RegisterForm () {
       <SubTitle>Informações</SubTitle>
       <InputContainer>
         <Select id="status" {...register("status")} >
-          <option value="BREVE_LANCAMENTO">Breve lançamento</option>
-          <option value="EM_OBRAS">Em obras</option>
-          <option value="LANCAMENTO">Lançamento</option>
-          <option value="PRONTO_PARA_MORAR">Pronto para morar</option>
+          <option value="SOON_RELEASE">Breve lançamento</option>
+          <option value="IN_WORKS">Em obras</option>
+          <option value="RELEASE">Lançamento</option>
+          <option value="READY">Pronto para morar</option>
 
          </Select>
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
@@ -98,8 +99,8 @@ export default function RegisterForm () {
 
       <InputContainer>
         <Select id="purpose" {...register("purpose")} >
-          <option value="RESIDENCIAL">Residencial</option>
-          <option value="COMERCIAL">Comercial</option>
+          <option value="HOME">Residencial</option>
+          <option value="COMMERCIAL">Comercial</option>
         </Select>
         {errors.purpose && <ErrorMessage>{errors.purpose.message}</ErrorMessage>}
       </InputContainer>
@@ -133,6 +134,7 @@ export default function RegisterForm () {
           type="text"
           id="number"
           placeholder="Number"
+          {...register("number")}
         />
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
       </InputContainer>
