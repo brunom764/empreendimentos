@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Enterprise } from '../domain/entities/enterprise';
+import { PaginatedEntity } from '../utils/paginated-entity.interface';
 
 export class EnterpriseRepository {
     private prisma: PrismaClient;
@@ -25,25 +26,36 @@ export class EnterpriseRepository {
         });
     }
 
-    async list(): Promise<Enterprise[]> {
-        const enterprises = await this.prisma.enterprise.findMany()
-        return enterprises.map(enterprise => {
-            return Enterprise.recover({
-                _id: enterprise.id,
-                name: enterprise.name,
-                status: enterprise.status,
-                purpose: enterprise.purpose,
-                ri_number: enterprise.ri_number,
-                address: {
-                    street: enterprise.street,
-                    city: enterprise.city,
-                    state: enterprise.state,
-                    number: enterprise.number,
-                    cep: enterprise.cep,
-                    district: enterprise.district,
-                }
-                });
-            });
+    async list(page: number = 1,
+		itemsPerPage: number = 5): Promise<PaginatedEntity<Enterprise>> {
+        const skip = (page - 1) * itemsPerPage
+        const [enterprises, total] = await Promise.all([
+			this.prisma.enterprise.findMany({ skip, take: itemsPerPage }),
+			this.prisma.enterprise.count()
+		])
+
+        return {
+            entities: enterprises.map(enterprise => {
+                return Enterprise.recover({
+                    _id: enterprise.id,
+                    name: enterprise.name,
+                    status: enterprise.status,
+                    purpose: enterprise.purpose,
+                    ri_number: enterprise.ri_number,
+                    address: {
+                        street: enterprise.street,
+                        city: enterprise.city,
+                        state: enterprise.state,
+                        number: enterprise.number,
+                        cep: enterprise.cep,
+                        district: enterprise.district,
+                    }
+                    })
+             }),
+            lastPage: Math.ceil(total / itemsPerPage),
+			currentPage: page,
+			totalItems: total
+            };
     }
 
     async findById(id: string): Promise<Enterprise | null> {

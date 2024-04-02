@@ -25,7 +25,10 @@ const EnterpriseSchema = {
         }).noUnknown()
     },
     list: {
-        query: yup.object({}).noUnknown()
+        query: yup.object({
+            page: yup.number(),
+            pagesize: yup.number()
+        }).noUnknown()
     },
     update: {
         params: yup.object({

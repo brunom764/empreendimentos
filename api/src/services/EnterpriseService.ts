@@ -1,5 +1,6 @@
 import { Enterprise } from '../domain/entities/enterprise';
 import { EnterpriseRepository } from '../repositories/Enterprise.Repository';
+import { PaginatedEntity } from '../utils/paginated-entity.interface';
 
 export default class EnterpriseService {
     private enterpriseRepository: EnterpriseRepository;
@@ -12,8 +13,8 @@ export default class EnterpriseService {
         return await this.enterpriseRepository.findById(id);
     }
 
-    async getEnterprises(): Promise<Enterprise[]> {
-        return await this.enterpriseRepository.list();
+    async getEnterprises(page = 1, pagesize = 5): Promise<PaginatedEntity<Enterprise>> {
+        return await this.enterpriseRepository.list(page, pagesize);
     }
 
     async create(data:Omit<Enterprise, '_id'>): Promise<void> {
