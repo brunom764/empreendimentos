@@ -1,6 +1,6 @@
 import { Enterprise } from '../domain/entities/enterprise';
-import { EnterpriseRepository } from '../repositories/Enterprise.Repository';
-import { PaginatedEntity } from '../utils/paginated-entity.interface';
+import { EnterpriseRepository } from '../repositories/enterprise/Enterprise.Repository';
+import { PaginatedEntity } from '../repositories/common/paginated-entity.interface';
 
 export default class EnterpriseService {
     private enterpriseRepository: EnterpriseRepository;

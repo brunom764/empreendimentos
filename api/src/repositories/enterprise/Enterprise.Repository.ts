@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import { Enterprise } from '../domain/entities/enterprise';
-import { PaginatedEntity } from '../utils/paginated-entity.interface';
+import { Enterprise } from '../../domain/entities/enterprise';
+import { PaginatedEntity } from '../common/paginated-entity.interface';
+import { IEnterpriseRepository } from './Protocols';
 
-export class EnterpriseRepository {
+export class EnterpriseRepository implements IEnterpriseRepository{
     private prisma: PrismaClient;
 
     constructor() {
