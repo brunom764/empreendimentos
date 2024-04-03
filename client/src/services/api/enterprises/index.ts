@@ -1,6 +1,7 @@
 import { Enterprise } from "../../../utils/types/enterprises";
 import { GetServerSidePropsContext } from "next";
 import { HttpHandler } from "../../../utils/network";
+import { PaginatedEntity } from "../../../utils/types/common/paginated-entity";
 
 export class EnterprisesApi {
     
@@ -14,9 +15,10 @@ export class EnterprisesApi {
         }
     }
 
-    static  async getEnterprises(ctx?: GetServerSidePropsContext): Promise<Enterprise[]>{
+    static  async getEnterprises(page: number, ctx?: GetServerSidePropsContext): 
+    Promise<PaginatedEntity<Enterprise>> {
         const handler = new HttpHandler(ctx);
-        const response = await handler.get<Enterprise[]>('/enterprise');
+        const response = await handler.get<PaginatedEntity<Enterprise>>(`/enterprise/?page=${page}`);
         if (response.success){
             return response.data;
         } else {

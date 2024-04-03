@@ -13,28 +13,33 @@ import useEnterpriseHook from "../hooks/enterprise";
 
 type HomeProps = {
     enterprises: Enterprise[];
+    currentPage: number;
+    lastPage: number;
+    totalItems: number;
 }
 
 export default function Home(props: HomeProps) {
     const {
         enterprises,
-        rowsPerPage,
-        enterprisesNumber,
+        currentPage,
         searchResults,
         setEnterprises,
-        setRowsPerPage,
-        setEnterprisesNumber,
+        setcurrentPage,
         setSearchResults
       } = useEnterpriseHook(props.enterprises);
     const router = useRouter();
 
-    const numberEnterprises = () => {
-        setEnterprisesNumber(enterprises.length)
+    const addNewEnterprises = async (currentPage: number) => {
+        const nextPage = (currentPage * 1) + 1;
+        setcurrentPage(nextPage);
+        const newEnterprises = await EnterprisesApi.getEnterprises(nextPage);
+        setEnterprises(prevEnterprises => {
+            const newEntities = newEnterprises.entities.filter(
+                entity => !prevEnterprises.some(e => e._id === entity._id)
+            );
+            return [...prevEnterprises, ...newEntities];
+        });
     }
-
-    useEffect(() => {
-        numberEnterprises()
-    })
 
     const handleSearch = (search?: string) => {
         if (!search) {
@@ -66,7 +71,7 @@ export default function Home(props: HomeProps) {
             />
             <SearchBar handleSearch={handleSearch}/>
             <CardsContainer>
-                {searchResults.slice(0, rowsPerPage).map((data: Enterprise) => {
+                {searchResults.map((data: Enterprise) => {
                     return (
                         <EnterpriseCard 
                             key= {data._id} 
@@ -76,9 +81,9 @@ export default function Home(props: HomeProps) {
                         />
                     )
                 })}
-                {(enterprisesNumber >= rowsPerPage) &&
+                {(props.lastPage !== currentPage) &&
                     <ButtonFooter description={"Carregar mais"} 
-                    pushClick={() => setRowsPerPage(rowsPerPage + 5)}
+                    pushClick={() => addNewEnterprises(props.currentPage)}
                 />}
             </CardsContainer>
         </main>
@@ -87,10 +92,13 @@ export default function Home(props: HomeProps) {
 
   export async function getServerSideProps() {
     try {
-        const enterprises = await EnterprisesApi.getEnterprises();
+        const enterprises = await EnterprisesApi.getEnterprises(1);
         return {
             props: {
-                enterprises: enterprises
+                enterprises: enterprises.entities,
+                currentPage: enterprises.currentPage,
+                lastPage: enterprises.lastPage,
+                totalItems: enterprises.totalItems
             }
         }
     } catch (error) {
