@@ -52,7 +52,7 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
       const response = await EnterprisesApi.update({...formData, address, _id: enterprise._id});
       if (response) {
         Swal.fire({
-          title: "Empreendimento cadastrado com sucesso! Você deseja cadastrar mais um?",
+          title: "Empreendimento atualizado com sucesso! Você deseja continuar editando-o?",
           showDenyButton: true,
           confirmButtonText: "Sim",
           denyButtonText: `Retornar ao menu `

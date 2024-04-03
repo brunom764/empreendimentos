@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import EnterpriseService from '../services/EnterpriseService';
 import BaseController from './BaseController';
-import { PaginatedEntity } from '../utils/paginated-entity.interface';
+import { PaginatedEntity } from '../repositories/common/paginated-entity.interface';
 import { Enterprise } from '../domain/entities/enterprise';
 
 export default class EnterpriseController extends BaseController {
