@@ -113,16 +113,6 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
       </InputContainer>
 
       <InputContainer>
-        <Input
-          type="text"
-          id="ri_number"
-          {...register("ri_number")}
-          placeholder="Número do RI"
-        />
-        {errors.ri_number && <ErrorMessage>{errors.ri_number.message}</ErrorMessage>}
-      </InputContainer>
-
-      <InputContainer>
         <Select id="purpose" {...register("purpose")} >
         {Object.entries(Purpose).map(([key, value]) => (
           <option key={key} value={value}>

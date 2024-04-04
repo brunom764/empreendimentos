@@ -3,12 +3,13 @@ import styled from 'styled-components';
 
 export const HeaderContainerAll = styled.header`
     max-width: 100%;
-    height: 5rem;
+    height: 4rem;
     background: #FFFFFF;
 
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    padding: 0 4rem;
 
 `
 
@@ -25,13 +26,14 @@ export const BoxAdd = styled.div<{ return: boolean }>`
             font-family: Montserrat, sans-serif;
             font-style: normal;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: #4F46BB;
         }
 
         button {
             width: 12rem;
             height: 2rem;
+            padding: 0.5rem 1rem;
             background: #4F46BB;
             border: none;
             border-radius: 2rem;
