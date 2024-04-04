@@ -1,9 +1,9 @@
 import styled from "styled-components"
 
 export const ContentLupa = styled.div`
-    width: 80%;
-    height: 2.5rem;
-    border-bottom: 2px solid #BBB8D9;
+    width: 75%;
+    height: 1.5rem;
+    margin-top: 1rem;
 
     input {
         border: none;
@@ -29,5 +29,4 @@ export const ContainerLupa = styled.div`
     justify-content: center;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
-
 `

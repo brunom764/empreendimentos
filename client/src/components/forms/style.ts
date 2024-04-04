@@ -10,7 +10,7 @@ export const FormContainer = styled.form`
 
 export const InputsContainer = styled.div`
     background-color: #ffffff;
-    padding: 2rem;
+    padding: 1rem;
 `;
 
 export const InputContainer = styled.div`
@@ -26,13 +26,14 @@ export const Input = styled.input`
   border-bottom: 1px solid #ccc;
   font-size: 1rem;
   width: 30rem;
+  color: rgba(0, 0, 0, 0.75);
 
   &:focus {
     border-color: #000;
   }
 
   &::placeholder {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.75);
   }
 
 `;
@@ -44,23 +45,27 @@ export const ErrorMessage = styled.span`
 `;
 
 export const Select = styled.select`
-  padding: 10px;
+  padding: 0.7rem;
   border: none;
   border-bottom: 1px solid #ccc;
   font-size: 1rem;
+  color: rgba(0, 0, 0, 0.75);
   &:focus {
     border-color: #000;
   }
+
+
 `;
 
 export const Button = styled.button`
   background-color: #4F46BB;
   color: #fff;
-  padding: 10px 20px;
+  min-width: 20%;
+  padding: 0.5rem 1rem ;
   border: none;
   border-radius: 20px;
   font-size: 0.8rem;
-  margin: 2rem;
+  margin: 1rem 2rem 2rem 2rem;
   cursor: pointer;
   &:hover {
     background-color: #6f63cc;
@@ -68,14 +73,12 @@ export const Button = styled.button`
 `;
 
 export const SubTitle = styled.h2`
-  font-size: 1rem;
-  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  margin: 0.7rem 0.7rem 1.3rem 0.7rem;
 `;
 
 export const AddressContainer = styled.div`
-  background-color: #f9f9f9;
   padding: 1rem;
-  margin-bottom: 10px;
-  font-size: 1rem;
-  font-weight: lighter;
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.75);
 `;
