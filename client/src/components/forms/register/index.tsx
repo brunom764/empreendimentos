@@ -45,7 +45,7 @@ export default function RegisterForm () {
     try {
       address.number = formData.number;
       address.cep = formData.cep;
-      const response = await EnterprisesApi.create({...formData, address});
+      const response = await EnterprisesApi.create({...formData, address, ri_number: '123456'});
       if (response) {
         Swal.fire({
           title: "Empreendimento cadastrado com sucesso! Você deseja cadastrar mais um?",
@@ -106,16 +106,6 @@ export default function RegisterForm () {
           placeholder="Nome do Empreendimento"
         />
         {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
-      </InputContainer>
-
-      <InputContainer>
-        <Input
-          type="text"
-          id="ri_number"
-          {...register("ri_number")}
-          placeholder="Número do RI"
-        />
-        {errors.ri_number && <ErrorMessage>{errors.ri_number.message}</ErrorMessage>}
       </InputContainer>
 
       <InputContainer>

@@ -4,7 +4,7 @@ export const ContainerHome = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 2rem;
+    padding: 0.7rem 1rem 0.7rem 1.5rem;
 `
 
 export const ContentHome = styled.div`
@@ -17,7 +17,7 @@ export const ContentHome = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 2rem 3rem;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
 
     @media (max-width: 720px) {
         padding: 1rem;
