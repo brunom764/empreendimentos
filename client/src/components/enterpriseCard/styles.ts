@@ -9,14 +9,14 @@ export const ContainerHome = styled.div`
 
 export const ContentHome = styled.div`
     width: 80%;
-    min-height: 8rem;
+    min-height: 6rem;
     background: #FFFFFF;
     border-radius: 8px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem 3rem;
+    padding: 2rem 2rem 1rem 2rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
 
     @media (max-width: 720px) {
@@ -36,7 +36,7 @@ export const BoxNameEnterprise = styled.div`
     span {
         font-family: Inter, sans-serif;
         font-weight: 700;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         color: #302E45;
         margin-right: 1.2rem;
         margin-bottom: 0.75rem;
@@ -60,9 +60,9 @@ export const ContentStatus = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 25px;
+        height: 1.5rem;
         width: fit-content;
-        padding: 5px 15px;
+        padding: 0.35rem 0.755rem;
         border: 1px solid #BBB8D9;
         border-radius: 25px;
 
@@ -72,7 +72,7 @@ export const ContentStatus = styled.div`
         color: #302E45;
 
         & + div {
-            margin-left: 15px;
+            margin-left: 0.5rem;
         }
     }
 `
@@ -87,6 +87,7 @@ export const ContentOptions = styled.div`
     justify-content: flex-end;
     margin-top: 1rem;
     padding-right: 1rem;
+    padding-bottom: 1rem;
 
     img {
         cursor: pointer;
