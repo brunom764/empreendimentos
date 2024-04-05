@@ -17,7 +17,6 @@ type FormValues = {
   purpose: Purpose | string;
   cep: string;
   number: string;
-  ri_number: string;
 };
 
 export default function RegisterForm () {
