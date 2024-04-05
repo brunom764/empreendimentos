@@ -17,7 +17,6 @@ type FormValues = {
   purpose: string;
   cep: string;
   number: string;
-  ri_number: string;
 };
 
 export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
@@ -41,7 +40,6 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
     setValue("purpose", enterprise.purpose);
     setValue("cep", enterprise.address.cep);
     setValue("number", enterprise.address.number);
-    setValue("ri_number", enterprise.ri_number);
   }, [setValue, enterprise]);
 
 
@@ -49,7 +47,7 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
     try {
       address.number = formData.number;
       address.cep = formData.cep;
-      const response = await EnterprisesApi.update({...formData, address, _id: enterprise._id});
+      const response = await EnterprisesApi.update({...formData, address, _id: enterprise._id, ri_number: enterprise.ri_number});
       if (response) {
         Swal.fire({
           title: "Empreendimento atualizado com sucesso! Você deseja continuar editando-o?",
