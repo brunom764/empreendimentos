@@ -10,5 +10,4 @@ export const schema = yup.object({
     .required('Finalidade é obrigatório'),
   cep: yup.string().required('CEP é obrigatório'),
   number: yup.string().required('Número é obrigatório'),
-  ri_number: yup.string().required('Número do RI é obrigatório'),
   });
