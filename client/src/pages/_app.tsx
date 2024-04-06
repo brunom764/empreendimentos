@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <Head>
-        <title>ChallengJob</title>
+        <title>ChallengeJob</title>
       </Head>
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
