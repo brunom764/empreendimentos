@@ -9,8 +9,8 @@ export const FormContainer = styled.form`
 `;
 
 export const InputsContainer = styled.div`
-    background-color: #ffffff;
-    padding: 1rem;
+  background-color: #ffffff;
+  padding: 1rem;
 `;
 
 export const InputContainer = styled.div`
@@ -36,6 +36,17 @@ export const Input = styled.input`
     color: rgba(0, 0, 0, 0.75);
   }
 
+  @media (max-width: 525px) {
+    width: 25rem;
+  }
+
+  @media (max-width: 425px) {
+    width: 20rem;
+  }
+
+  @media (max-width: 375px) {
+    width: 100%;
+  }
 `;
 
 export const ErrorMessage = styled.span`
@@ -53,15 +64,13 @@ export const Select = styled.select`
   &:focus {
     border-color: #000;
   }
-
-
 `;
 
 export const Button = styled.button`
-  background-color: #4F46BB;
+  background-color: #4f46bb;
   color: #fff;
   min-width: 20%;
-  padding: 0.5rem 1rem ;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 20px;
   font-size: 0.8rem;

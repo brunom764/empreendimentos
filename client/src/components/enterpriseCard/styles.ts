@@ -8,7 +8,11 @@ export const ContainerHome = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 2rem;
+    padding: 0.7rem 1rem 0.7rem 1.5rem;
+
+    @media (max-width: 768px) {
+        padding: 0.7rem 0rem 0.7rem 0rem;
+    }
 `;
 
 export const ContentHome = styled.div`
@@ -21,15 +25,19 @@ export const ContentHome = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 2rem 2rem 1rem 2rem;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
 
     @media (max-width: 719px) {
         flex-direction: row;
         gap: 1rem;
     }
 
+    @media (max-width: 768px) {
+        padding: 2rem 1.7rem 1rem 1.7rem;
+    }
+
     @media (max-width: 375px) {
-        padding: 2rem 1.5rem 1rem 1.5rem;
+        padding: 2rem 1rem 1rem 1rem;
     }
 `;
 
