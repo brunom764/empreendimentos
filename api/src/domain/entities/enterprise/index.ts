@@ -1,14 +1,14 @@
 import * as uuid from 'uuid';
 
 export enum Status {
-  SOON_RELEASE = "em breve",
+  SOON_RELEASE = "Em breve",
   IN_WORKS = "Em obras",
-  READY = "Pronto para morar",
+  READY = "Disponível",
   RELEASE = "Lançamento"
 }
 
 export enum Purpose {
- HOME = "residencial",
+ HOME = "Residencial",
  COMMERCIAL = "Comercial"
 }
 

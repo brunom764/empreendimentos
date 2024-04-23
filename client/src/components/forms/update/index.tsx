@@ -17,6 +17,7 @@ type FormValues = {
   purpose: string;
   cep: string;
   number: string;
+  ri_number: string;
 };
 
 export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
@@ -40,14 +41,15 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
     setValue("purpose", enterprise.purpose);
     setValue("cep", enterprise.address.cep);
     setValue("number", enterprise.address.number);
+    setValue("ri_number", enterprise.ri_number);
   }, [setValue, enterprise]);
 
 
   const onSubmit = async (formData: FormValues) => {
     try {
+      const address = await getAddress(formData.cep);
       address.number = formData.number;
-      address.cep = formData.cep;
-      const response = await EnterprisesApi.update({...formData, address, _id: enterprise._id, ri_number: enterprise.ri_number});
+      const response = await EnterprisesApi.update({...formData, address, _id: enterprise._id});
       if (response) {
         Swal.fire({
           title: "Empreendimento atualizado com sucesso! Você deseja continuar editando-o?",
@@ -90,12 +92,12 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
       <InputsContainer>
       <SubTitle>Informações</SubTitle>
       <InputContainer>
-        <Select id="status" {...register("status")} >
-          {Object.entries(Status).map(([key, value]) => (
+      <Select id="status" {...register("status")} >
+        {Object.entries(Status).map(([key, value]) => (
           <option key={key} value={value}>
             {value}
           </option>
-          ))}
+      ))}
          </Select>
         {errors.status && <ErrorMessage>{errors.status.message}</ErrorMessage>}
       </InputContainer>
@@ -111,7 +113,17 @@ export default function UpdateForm ({enterprise}: {enterprise: Enterprise}) {
       </InputContainer>
 
       <InputContainer>
-        <Select id="purpose" {...register("purpose")} >
+        <Input
+          type="text"
+          id="ri_number"
+          {...register("ri_number")}
+          placeholder="Número do RI"
+        />
+        {errors.ri_number && <ErrorMessage>{errors.ri_number.message}</ErrorMessage>}
+      </InputContainer>
+
+      <InputContainer>
+      <Select id="purpose" {...register("purpose")} >
         {Object.entries(Purpose).map(([key, value]) => (
           <option key={key} value={value}>
             {value}

@@ -24,14 +24,14 @@ export default function Home(props: HomeProps) {
         currentPage,
         searchResults,
         setEnterprises,
-        setcurrentPage,
+        setCurrentPage,
         setSearchResults
       } = useEnterpriseHook(props.enterprises);
     const router = useRouter();
 
     const addNewEnterprises = async (currentPage: number) => {
         const nextPage = (currentPage * 1) + 1;
-        setcurrentPage(nextPage);
+        setCurrentPage(nextPage);
         const newEnterprises = await EnterprisesApi.getEnterprises(nextPage);
         setEnterprises(prevEnterprises => {
             const newEntities = newEnterprises.entities.filter(

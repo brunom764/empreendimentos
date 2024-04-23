@@ -8,7 +8,7 @@ import { Address, getAddress } from '../../../utils/helpers/getAddress';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/dist/client/router';
 import { Routes } from '../../../utils/environment/routes';
-import { Purpose, Status } from '../../../utils/types/enterprises';
+import { Enterprise, Purpose, Status } from '../../../utils/types/enterprises';
 
 
 type FormValues = {
@@ -17,6 +17,7 @@ type FormValues = {
   purpose: Purpose | string;
   cep: string;
   number: string;
+  ri_number: string;
 };
 
 export default function RegisterForm () {
@@ -35,37 +36,29 @@ export default function RegisterForm () {
     register,
     handleSubmit,
     setError,
-    formState: { errors},
+    formState: { errors },
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (formData: FormValues) => {
     try {
-      address.number = formData.number;
-      address.cep = formData.cep;
-      const response = await EnterprisesApi.create({...formData, address, ri_number: '123456'});
-      if (response) {
-        Swal.fire({
-          title: "Empreendimento cadastrado com sucesso! Você deseja cadastrar mais um?",
-          showDenyButton: true,
-          confirmButtonText: "Sim",
-          denyButtonText: `Retornar ao menu `
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.reload();
-          } else if (result) {
-              router.push(Routes.HOME);
-          }
+      const address = await getAddress(formData.cep);
+  
+      if (!address.cep) {
+        setError('cep', {
+          type: 'manual',
+          message: 'CEP inválido',
         });
+        return;
       }
+  
+      const enterpriseData = prepareEnterpriseData(formData, address);
+      const response = await createEnterprise(enterpriseData);
+  
+      handleSuccessResponse(response);
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Algo deu errado! Tente novamente mais tarde.",
-        footer: '<a href="https://www.construtorapatriani.com.br/">Se o erro persistir, contate-nos</a>'
-      });
+      handleErrorResponse(error);
     }
   };
 
@@ -81,6 +74,53 @@ export default function RegisterForm () {
       });
     }
   }
+
+  const prepareEnterpriseData = (formData: FormValues, address: Address): Omit<Enterprise, '_id'> => {
+    return {
+      name: formData.name,
+      status: formData.status,
+      purpose: formData.purpose,
+      ri_number: formData.ri_number,
+      address: {
+        number: formData.number,
+        district: address.district,
+        city: address.city,
+        street: address.street,
+        state: address.state,
+        cep: address.cep
+      },
+    };
+  };
+  
+  const createEnterprise = async (enterpriseData: any) => {
+    return await EnterprisesApi.create({...enterpriseData});
+  };
+  
+  const handleSuccessResponse = (response: any) => {
+    if (response) {
+      Swal.fire({
+        title: "Empreendimento cadastrado com sucesso! Você deseja cadastrar mais um?",
+        showDenyButton: true,
+        confirmButtonText: "Sim",
+        denyButtonText: `Retornar ao menu`
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        } else {
+          router.push(Routes.HOME);
+        }
+      });
+    }
+  };
+  
+  const handleErrorResponse = (error: any) => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Algo deu errado! Tente novamente mais tarde.",
+      footer: '<a href="https://www.construtorapatriani.com.br/">Se o erro persistir, contate-nos</a>'
+    });
+  };
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -105,6 +145,16 @@ export default function RegisterForm () {
           placeholder="Nome do Empreendimento"
         />
         {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+      </InputContainer>
+
+      <InputContainer>
+        <Input
+          type="text"
+          id="ri_number"
+          {...register("ri_number")}
+          placeholder="Número do RI"
+        />
+        {errors.ri_number && <ErrorMessage>{errors.ri_number.message}</ErrorMessage>}
       </InputContainer>
 
       <InputContainer>
